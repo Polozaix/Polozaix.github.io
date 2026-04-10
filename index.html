@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0F172A" />
+  <meta name="description" content="Polozaix — Software Engineering Student. Python developer building practical systems." />
+  <meta property="og:title" content="Polozaix | Software Engineer" />
+  <meta property="og:description" content="Software Engineering Student — Python, databases, systems." />
+  <title>Polozaix | Software Engineer</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Space Grotesk', 'sans-serif'],
+            body: ['Archivo', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    *, body { font-family: 'Archivo', sans-serif; }
+    h1, h2, h3, h4, h5, .font-heading { font-family: 'Space Grotesk', sans-serif; }
+
+    /* Background */
+    body {
+      background-color: #0F172A;
+      background-image:
+        radial-gradient(at 15% 40%, rgba(34,197,94,.07) 0, transparent 55%),
+        radial-gradient(at 85% 15%, rgba(37,99,235,.07) 0, transparent 55%),
+        radial-gradient(at 50% 85%, rgba(139,92,246,.05) 0, transparent 55%);
+      min-height: 100vh;
+    }
+
+    /* Glass card */
+    .glass {
+      background: rgba(255,255,255,.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .glass-strong {
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    /* Gradient text */
+    .grad { background: linear-gradient(135deg,#22C55E,#2563EB); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .grad-blue { background: linear-gradient(135deg,#2563EB,#7C3AED); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #0F172A; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+
+    /* Typing effect */
+    .typing::after { content:'|'; color:#22C55E; animation: blink 1s step-start infinite; }
+    @keyframes blink { 50% { opacity:0; } }
+
+    /* Float */
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .float { animation: float 4s ease-in-out infinite; }
+
+    /* Fade in up */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeUp .6s ease forwards; }
+    .delay-1 { animation-delay: .1s; opacity:0; }
+    .delay-2 { animation-delay: .2s; opacity:0; }
+    .delay-3 { animation-delay: .3s; opacity:0; }
+    .delay-4 { animation-delay: .4s; opacity:0; }
+    .delay-5 { animation-delay: .5s; opacity:0; }
+
+    /* Nav underline */
+    .nav-link { position:relative; }
+    .nav-link::after { content:''; position:absolute; bottom:-3px; left:0; width:0; height:2px; background:#22C55E; transition:width .3s; }
+    .nav-link:hover::after { width:100%; }
+
+    /* Card hover */
+    .card-hover { transition: transform .3s ease, box-shadow .3s ease; }
+    .card-hover:hover { transform: translateY(-5px); box-shadow: 0 24px 48px rgba(0,0,0,.35); }
+
+    /* Skill bars */
+    @keyframes fill { from{width:0} to{width:var(--w)} }
+    .skill-fill { animation: fill 1.2s ease forwards; }
+
+    /* Glow accent button */
+    .btn-accent {
+      background: linear-gradient(135deg, #22C55E, #16A34A);
+      transition: box-shadow .3s, transform .2s;
+    }
+    .btn-accent:hover {
+      box-shadow: 0 0 20px rgba(34,197,94,.4);
+      transform: translateY(-1px);
+    }
+
+    /* Goal category colors */
+    .cat-badge { padding: 2px 10px; border-radius: 999px; font-size: .7rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase; border: 1px solid; display:inline-flex; align-items:center; gap:4px; }
+    .cat-daily    { color:#60A5FA; border-color:rgba(96,165,250,.35); background:rgba(96,165,250,.1); }
+    .cat-weekly   { color:#A78BFA; border-color:rgba(167,139,250,.35); background:rgba(167,139,250,.1); }
+    .cat-monthly  { color:#F472B6; border-color:rgba(244,114,182,.35); background:rgba(244,114,182,.1); }
+    .cat-longterm { color:#34D399; border-color:rgba(52,211,153,.35); background:rgba(52,211,153,.1); }
+    .cat-fitness  { color:#FB923C; border-color:rgba(251,146,60,.35); background:rgba(251,146,60,.1); }
+    .cat-study    { color:#FDE68A; border-color:rgba(253,230,138,.35); background:rgba(253,230,138,.1); }
+
+    /* Priority */
+    .pri-high   { color:#F87171; }
+    .pri-medium { color:#FCD34D; }
+    .pri-low    { color:#86EFAC; }
+
+    /* Completed task */
+    .task-done { opacity:.45; }
+    .task-done .task-title { text-decoration: line-through; }
+
+    /* Progress ring */
+    .ring { transform-origin: center; transform: rotate(-90deg); }
+
+    /* Mobile menu */
+    #mobile-menu { transition: max-height .3s ease, opacity .3s ease; max-height:0; opacity:0; overflow:hidden; }
+    #mobile-menu.open { max-height:400px; opacity:1; }
+
+    /* Notification permission banner */
+    #notif-banner { transition: transform .4s ease, opacity .4s ease; }
+
+    /* Modal */
+    #task-modal { transition: opacity .2s ease; }
+    #task-modal.hidden { pointer-events:none; }
+
+    /* Smooth scroll offset for fixed nav */
+    section { scroll-margin-top: 72px; }
+  </style>
+</head>
+
+<body class="text-slate-100 overflow-x-hidden">
+
+<!-- ═══════════════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════════════════ -->
+<nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/[.06]">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="#home" class="font-heading font-bold text-xl tracking-tight">
+        <span class="grad">Polo</span><span class="text-slate-300">zaix</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#about"    class="nav-link text-sm text-slate-400 hover:text-white transition-colors">About</a>
+        <a href="#projects" class="nav-link text-sm text-slate-400 hover:text-white transition-colors">Projects</a>
+        <a href="#skills"   class="nav-link text-sm text-slate-400 hover:text-white transition-colors">Skills</a>
+        <a href="#goals"    class="nav-link text-sm text-slate-400 hover:text-white transition-colors">Goals</a>
+        <a href="https://github.com/Polozaix" target="_blank" rel="noopener"
+           class="btn-accent text-white text-sm font-medium px-4 py-1.5 rounded-full flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          GitHub
+        </a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="hamburger" class="md:hidden text-slate-400 hover:text-white" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu">
+      <div class="py-3 flex flex-col gap-1 border-t border-white/[.06]">
+        <a href="#about"    class="px-2 py-2 text-sm text-slate-400 hover:text-white">About</a>
+        <a href="#projects" class="px-2 py-2 text-sm text-slate-400 hover:text-white">Projects</a>
+        <a href="#skills"   class="px-2 py-2 text-sm text-slate-400 hover:text-white">Skills</a>
+        <a href="#goals"    class="px-2 py-2 text-sm text-slate-400 hover:text-white">Goals</a>
+        <a href="https://github.com/Polozaix" target="_blank" rel="noopener"
+           class="px-2 py-2 text-sm text-[#22C55E]">GitHub →</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════
+     NOTIFICATION PERMISSION BANNER
+════════════════════════════════════════════════════ -->
+<div id="notif-banner" class="hidden fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:w-96 z-50 glass-strong rounded-2xl p-4 shadow-2xl">
+  <div class="flex items-start gap-3">
+    <div class="w-10 h-10 rounded-xl bg-[#22C55E]/20 flex items-center justify-center shrink-0 mt-0.5">
+      <span class="text-lg">🔔</span>
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="font-heading font-semibold text-sm text-white">Enable Notifications</p>
+      <p class="text-xs text-slate-400 mt-0.5">Get persistent reminders for your goals — they won't disappear until you act on them.</p>
+      <div class="flex gap-2 mt-3">
+        <button id="allow-notif" class="btn-accent text-white text-xs font-semibold px-4 py-1.5 rounded-full">Allow</button>
+        <button id="dismiss-notif" class="text-xs text-slate-500 hover:text-slate-300 px-3 py-1.5">Later</button>
+      </div>
+    </div>
+    <button id="close-banner" class="text-slate-600 hover:text-slate-300 shrink-0">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════ -->
+<section id="home" class="min-h-screen flex items-center justify-center px-4 pt-16">
+  <div class="max-w-4xl mx-auto text-center">
+    <!-- Avatar placeholder -->
+    <div class="float mx-auto mb-8 w-24 h-24 rounded-2xl glass-strong border-2 border-[#22C55E]/30 flex items-center justify-center shadow-lg shadow-[#22C55E]/10">
+      <span class="font-heading font-bold text-4xl grad">P</span>
+    </div>
+
+    <div class="fade-up">
+      <p class="text-[#22C55E] text-sm font-semibold tracking-widest uppercase mb-3">Software Engineering Student</p>
+      <h1 class="font-heading text-5xl sm:text-7xl font-bold tracking-tight mb-4">
+        Hey, I'm <span class="grad">Polozaix</span>
+      </h1>
+      <p class="text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-8">
+        I build practical software systems — from budget trackers to gym management tools.
+        Currently studying software engineering and turning ideas into working code.
+      </p>
+    </div>
+
+    <div class="fade-up delay-2 flex flex-wrap gap-3 justify-center">
+      <a href="#projects" class="btn-accent text-white font-semibold px-7 py-3 rounded-full text-sm">
+        View Projects →
+      </a>
+      <a href="#goals" class="glass border border-white/10 hover:border-[#22C55E]/40 text-white font-semibold px-7 py-3 rounded-full text-sm transition-colors">
+        Goal Tracker
+      </a>
+      <a href="https://github.com/Polozaix" target="_blank" rel="noopener"
+         class="glass border border-white/10 hover:border-white/20 text-slate-300 font-semibold px-7 py-3 rounded-full text-sm transition-colors flex items-center gap-2">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="fade-up delay-4 mt-20 flex flex-col items-center gap-1">
+      <span class="text-xs text-slate-600">scroll to explore</span>
+      <div class="w-px h-8 bg-gradient-to-b from-transparent to-[#22C55E]/40"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     ABOUT
+════════════════════════════════════════════════════ -->
+<section id="about" class="py-24 px-4">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex items-center gap-3 mb-12">
+      <span class="text-[#22C55E] text-sm font-semibold tracking-widest uppercase">01. About</span>
+      <div class="h-px flex-1 bg-gradient-to-r from-[#22C55E]/20 to-transparent"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold mb-5">
+          Building systems, <span class="grad">one commit</span> at a time.
+        </h2>
+        <p class="text-slate-400 leading-relaxed mb-4">
+          I'm a software engineering student with a passion for building practical, real-world applications.
+          My focus is on backend systems, databases, and automation — tools that actually solve problems.
+        </p>
+        <p class="text-slate-400 leading-relaxed mb-6">
+          From financial tracking apps to gym management systems and network projects,
+          I enjoy taking a problem from concept to a working solution. Python is my primary language,
+          and I'm always expanding my stack.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {['Problem Solver','Python Dev','DB Design','Systems Thinker','Student'].map(t =>
+            `<span class="glass text-xs text-slate-300 px-3 py-1 rounded-full border border-white/[.06]">${t}</span>`
+          ).join('')}
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="glass rounded-2xl p-5 card-hover">
+          <p class="font-heading text-3xl font-bold grad">5</p>
+          <p class="text-sm text-slate-400 mt-1">Public Repos</p>
+        </div>
+        <div class="glass rounded-2xl p-5 card-hover">
+          <p class="font-heading text-3xl font-bold grad-blue">4</p>
+          <p class="text-sm text-slate-400 mt-1">Projects Built</p>
+        </div>
+        <div class="glass rounded-2xl p-5 card-hover">
+          <p class="font-heading text-3xl font-bold" style="background:linear-gradient(135deg,#F472B6,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent">3+</p>
+          <p class="text-sm text-slate-400 mt-1">Tech Stacks</p>
+        </div>
+        <div class="glass rounded-2xl p-5 card-hover">
+          <p class="font-heading text-3xl font-bold" style="background:linear-gradient(135deg,#FB923C,#FDE68A);-webkit-background-clip:text;-webkit-text-fill-color:transparent">∞</p>
+          <p class="text-sm text-slate-400 mt-1">Coffee Consumed</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PROJECTS
+════════════════════════════════════════════════════ -->
+<section id="projects" class="py-24 px-4">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-[#22C55E] text-sm font-semibold tracking-widest uppercase">02. Projects</span>
+      <div class="h-px flex-1 bg-gradient-to-r from-[#22C55E]/20 to-transparent"></div>
+    </div>
+    <h2 class="font-heading text-3xl sm:text-4xl font-bold mb-12">Things I've <span class="grad">Built</span></h2>
+
+    <div class="grid sm:grid-cols-2 gap-6">
+
+      <!-- Budget Tracker -->
+      <a href="https://github.com/Polozaix/budget---tracker" target="_blank" rel="noopener"
+         class="glass rounded-2xl p-6 card-hover group block">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-11 h-11 rounded-xl bg-[#22C55E]/10 border border-[#22C55E]/20 flex items-center justify-center">
+            <span class="text-xl">💰</span>
+          </div>
+          <svg class="w-4 h-4 text-slate-600 group-hover:text-[#22C55E] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </div>
+        <h3 class="font-heading font-semibold text-white mb-2">Budget Tracker</h3>
+        <p class="text-sm text-slate-400 leading-relaxed mb-4">
+          Personal expense tracking app using Python and SQLite. Persistent data storage lets you monitor your budget across sessions.
+        </p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="text-xs bg-[#22C55E]/10 text-[#22C55E] border border-[#22C55E]/20 px-2.5 py-0.5 rounded-full">Python</span>
+          <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2.5 py-0.5 rounded-full">SQLite</span>
+          <span class="text-xs bg-purple-500/10 text-purple-400 border border-purple-500/20 px-2.5 py-0.5 rounded-full">Database</span>
+        </div>
+      </a>
+
+      <!-- Gym Management -->
+      <a href="https://github.com/Polozaix/Gym-management-system" target="_blank" rel="noopener"
+         class="glass rounded-2xl p-6 card-hover group block">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+            <span class="text-xl">🏋️</span>
+          </div>
+          <svg class="w-4 h-4 text-slate-600 group-hover:text-blue-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </div>
+        <h3 class="font-heading font-semibold text-white mb-2">Gym Management System</h3>
+        <p class="text-sm text-slate-400 leading-relaxed mb-4">
+          Full gym operations management application. Handles memberships, scheduling, and day-to-day gym administration.
+        </p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="text-xs bg-[#22C55E]/10 text-[#22C55E] border border-[#22C55E]/20 px-2.5 py-0.5 rounded-full">Python</span>
+          <span class="text-xs bg-orange-500/10 text-orange-400 border border-orange-500/20 px-2.5 py-0.5 rounded-full">Flask</span>
+          <span class="text-xs bg-slate-500/10 text-slate-400 border border-slate-500/20 px-2.5 py-0.5 rounded-full">Management</span>
+        </div>
+      </a>
+
+      <!-- Network Project -->
+      <a href="https://github.com/Polozaix/network-project" target="_blank" rel="noopener"
+         class="glass rounded-2xl p-6 card-hover group block">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-11 h-11 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+            <span class="text-xl">🌐</span>
+          </div>
+          <svg class="w-4 h-4 text-slate-600 group-hover:text-purple-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </div>
+        <h3 class="font-heading font-semibold text-white mb-2">Network Project</h3>
+        <p class="text-sm text-slate-400 leading-relaxed mb-4">
+          University project demonstrating core networking concepts and requirements. Covers fundamental network architecture and communication.
+        </p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="text-xs bg-purple-500/10 text-purple-400 border border-purple-500/20 px-2.5 py-0.5 rounded-full">Networking</span>
+          <span class="text-xs bg-pink-500/10 text-pink-400 border border-pink-500/20 px-2.5 py-0.5 rounded-full">University</span>
+          <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2.5 py-0.5 rounded-full">Systems</span>
+        </div>
+      </a>
+
+      <!-- Vehicle DB -->
+      <a href="https://github.com/Polozaix/Vehicle-management-system-database-project-" target="_blank" rel="noopener"
+         class="glass rounded-2xl p-6 card-hover group block">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-11 h-11 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+            <span class="text-xl">🚗</span>
+          </div>
+          <svg class="w-4 h-4 text-slate-600 group-hover:text-orange-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </div>
+        <h3 class="font-heading font-semibold text-white mb-2">Vehicle Management DB</h3>
+        <p class="text-sm text-slate-400 leading-relaxed mb-4">
+          Academic database project demonstrating the ability to research a real-world system and design a robust relational database schema.
+        </p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="text-xs bg-orange-500/10 text-orange-400 border border-orange-500/20 px-2.5 py-0.5 rounded-full">SQL</span>
+          <span class="text-xs bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 px-2.5 py-0.5 rounded-full">Database Design</span>
+          <span class="text-xs bg-[#22C55E]/10 text-[#22C55E] border border-[#22C55E]/20 px-2.5 py-0.5 rounded-full">Research</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="mt-8 text-center">
+      <a href="https://github.com/Polozaix?tab=repositories" target="_blank" rel="noopener"
+         class="glass inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white border border-white/[.06] hover:border-[#22C55E]/30 px-5 py-2.5 rounded-full transition-all">
+        View all repositories on GitHub
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SKILLS
+════════════════════════════════════════════════════ -->
+<section id="skills" class="py-24 px-4">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-[#22C55E] text-sm font-semibold tracking-widest uppercase">03. Skills</span>
+      <div class="h-px flex-1 bg-gradient-to-r from-[#22C55E]/20 to-transparent"></div>
+    </div>
+    <h2 class="font-heading text-3xl sm:text-4xl font-bold mb-12">Tech <span class="grad">Stack</span></h2>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Skill bars -->
+      <div class="space-y-5">
+        <h3 class="font-heading font-semibold text-slate-300 mb-4">Core Technologies</h3>
+        <div class="skill-item" data-skill="Python" data-pct="85" data-color="#22C55E">
+          <div class="flex justify-between text-sm mb-1.5">
+            <span class="text-slate-300 font-medium">Python</span>
+            <span class="text-slate-500">85%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/[.05] overflow-hidden">
+            <div class="h-full rounded-full skill-fill bg-gradient-to-r from-[#22C55E] to-[#16A34A]" style="--w:85%;width:0"></div>
+          </div>
+        </div>
+        <div class="skill-item" data-skill="SQL/SQLite" data-pct="75" data-color="#2563EB">
+          <div class="flex justify-between text-sm mb-1.5">
+            <span class="text-slate-300 font-medium">SQL / SQLite</span>
+            <span class="text-slate-500">75%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/[.05] overflow-hidden">
+            <div class="h-full rounded-full skill-fill bg-gradient-to-r from-[#2563EB] to-[#1D4ED8]" style="--w:75%;width:0"></div>
+          </div>
+        </div>
+        <div class="skill-item" data-skill="Database Design" data-pct="70">
+          <div class="flex justify-between text-sm mb-1.5">
+            <span class="text-slate-300 font-medium">Database Design</span>
+            <span class="text-slate-500">70%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/[.05] overflow-hidden">
+            <div class="h-full rounded-full skill-fill bg-gradient-to-r from-purple-500 to-violet-600" style="--w:70%;width:0"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between text-sm mb-1.5">
+            <span class="text-slate-300 font-medium">Networking</span>
+            <span class="text-slate-500">60%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/[.05] overflow-hidden">
+            <div class="h-full rounded-full skill-fill bg-gradient-to-r from-pink-500 to-rose-500" style="--w:60%;width:0"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between text-sm mb-1.5">
+            <span class="text-slate-300 font-medium">Web Dev (HTML/CSS/JS)</span>
+            <span class="text-slate-500">55%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/[.05] overflow-hidden">
+            <div class="h-full rounded-full skill-fill bg-gradient-to-r from-orange-400 to-amber-500" style="--w:55%;width:0"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tech pills -->
+      <div>
+        <h3 class="font-heading font-semibold text-slate-300 mb-4">Tools & Technologies</h3>
+        <div class="flex flex-wrap gap-2">
+          {['Python','SQLite','MySQL','Flask','Git','GitHub','Linux','Networking','OOP','REST APIs','Database Design','Systems Architecture','VS Code','Agile'].map(t =>
+            `<span class="glass text-sm text-slate-300 px-3 py-1.5 rounded-lg border border-white/[.06] hover:border-[#22C55E]/30 hover:text-white transition-colors cursor-default">${t}</span>`
+          ).join('')}
+        </div>
+
+        <!-- Currently learning -->
+        <div class="mt-6 glass rounded-xl p-4 border border-[#22C55E]/10">
+          <p class="text-xs font-semibold text-[#22C55E] tracking-widest uppercase mb-3">Currently Learning</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs text-slate-400 bg-white/[.04] px-2.5 py-1 rounded-md">React</span>
+            <span class="text-xs text-slate-400 bg-white/[.04] px-2.5 py-1 rounded-md">Docker</span>
+            <span class="text-xs text-slate-400 bg-white/[.04] px-2.5 py-1 rounded-md">Cloud Computing</span>
+            <span class="text-xs text-slate-400 bg-white/[.04] px-2.5 py-1 rounded-md">Algorithms</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     GOAL TRACKER
+════════════════════════════════════════════════════ -->
+<section id="goals" class="py-24 px-4">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-[#22C55E] text-sm font-semibold tracking-widest uppercase">04. Goal Tracker</span>
+      <div class="h-px flex-1 bg-gradient-to-r from-[#22C55E]/20 to-transparent"></div>
+    </div>
+
+    <!-- Header row -->
+    <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+      <div>
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold">Personal <span class="grad">Goals</span></h2>
+        <p class="text-slate-400 text-sm mt-1">Categorised goals with persistent phone notifications that won't disappear until you act.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Notification status -->
+        <div id="notif-status" class="glass text-xs px-3 py-1.5 rounded-full border flex items-center gap-1.5">
+          <span id="notif-dot" class="w-2 h-2 rounded-full bg-slate-500"></span>
+          <span id="notif-label" class="text-slate-500">Notifications off</span>
+        </div>
+        <button id="add-goal-btn" class="btn-accent text-white text-sm font-semibold px-5 py-2 rounded-full flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          Add Goal
+        </button>
+      </div>
+    </div>
+
+    <!-- Progress overview -->
+    <div id="progress-overview" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-8"></div>
+
+    <!-- Category filter tabs -->
+    <div class="flex gap-2 flex-wrap mb-6" id="cat-tabs">
+      <button data-cat="all" class="cat-tab active glass-strong text-xs font-semibold px-4 py-1.5 rounded-full border border-white/10 text-white transition-all">All</button>
+      <button data-cat="daily"    class="cat-tab glass text-xs font-semibold px-4 py-1.5 rounded-full border border-white/[.06] text-slate-400 transition-all hover:text-white">📅 Daily</button>
+      <button data-cat="weekly"   class="cat-tab glass text-xs font-semibold px-4 py-1.5 rounded-full border border-white/[.06] text-slate-400 transition-all hover:text-white">📆 Weekly</button>
+      <button data-cat="monthly"  class="cat-tab glass text-xs font-semibold px-4 py-1.5 rounded-full border border-white/[.06] text-slate-400 transition-all hover:text-white">🗓️ Monthly</button>
+      <button data-cat="longterm" class="cat-tab glass text-xs font-semibold px-4 py-1.5 rounded-full border border-white/[.06] text-slate-400 transition-all hover:text-white">🚀 Long-term</button>
+      <button data-cat="fitness"  class="cat-tab glass text-xs font-semibold px-4 py-1.5 rounded-full border border-white/[.06] text-slate-400 transition-all hover:text-white">💪 Fitness</button>
+      <button data-cat="study"    class="cat-tab glass text-xs font-semibold px-4 py-1.5 rounded-full border border-white/[.06] text-slate-400 transition-all hover:text-white">📚 Study</button>
+    </div>
+
+    <!-- Goals list -->
+    <div id="goals-list" class="space-y-3 min-h-[200px]"></div>
+
+    <!-- Empty state -->
+    <div id="goals-empty" class="hidden text-center py-16">
+      <div class="text-5xl mb-4">🎯</div>
+      <p class="font-heading font-semibold text-slate-400 text-lg">No goals yet</p>
+      <p class="text-slate-600 text-sm mt-1">Add your first goal to start tracking</p>
+    </div>
+
+    <!-- PWA install hint -->
+    <div id="install-hint" class="hidden mt-8 glass rounded-2xl p-5 border border-[#22C55E]/10">
+      <div class="flex items-start gap-3">
+        <span class="text-2xl">📱</span>
+        <div>
+          <p class="font-heading font-semibold text-sm text-white">Install as App for Persistent Phone Notifications</p>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            For notifications that truly won't disappear — even when the browser is closed — install this site as a PWA.
+            <strong class="text-slate-300">Android:</strong> tap the browser menu → "Add to Home Screen".
+            <strong class="text-slate-300">iOS:</strong> tap Share → "Add to Home Screen".
+            Notifications will use <code class="bg-white/[.06] px-1 rounded">requireInteraction: true</code> so they stay until you mark the goal done or snooze.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════ -->
+<footer class="py-12 px-4 border-t border-white/[.05]">
+  <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="font-heading font-bold text-lg"><span class="grad">Polo</span><span class="text-slate-600">zaix</span></p>
+    <p class="text-sm text-slate-600">Software Engineering Student · Built with passion</p>
+    <div class="flex gap-4">
+      <a href="https://github.com/Polozaix" target="_blank" rel="noopener" class="text-slate-600 hover:text-[#22C55E] transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════
+     ADD / EDIT GOAL MODAL
+════════════════════════════════════════════════════ -->
+<div id="task-modal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
+  <!-- Backdrop -->
+  <div id="modal-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+  <!-- Modal -->
+  <div class="relative glass-strong rounded-2xl sm:rounded-3xl p-6 w-full max-w-md shadow-2xl z-10 border border-white/10">
+    <div class="flex items-center justify-between mb-5">
+      <h3 id="modal-title" class="font-heading font-bold text-lg text-white">Add Goal</h3>
+      <button id="close-modal" class="text-slate-500 hover:text-white transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <form id="goal-form" class="space-y-4">
+      <input type="hidden" id="goal-id" />
+
+      <!-- Title -->
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Goal Title *</label>
+        <input id="goal-title" type="text" required placeholder="e.g. Complete algorithms chapter"
+               class="w-full glass bg-white/[.04] border border-white/10 focus:border-[#22C55E]/50 text-white placeholder-slate-600 rounded-xl px-4 py-2.5 text-sm outline-none transition-colors" />
+      </div>
+
+      <!-- Category + Priority row -->
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Category</label>
+          <select id="goal-cat" class="w-full glass bg-[#0F172A] border border-white/10 focus:border-[#22C55E]/50 text-white rounded-xl px-3 py-2.5 text-sm outline-none">
+            <option value="daily">📅 Daily</option>
+            <option value="weekly">📆 Weekly</option>
+            <option value="monthly">🗓️ Monthly</option>
+            <option value="longterm">🚀 Long-term</option>
+            <option value="fitness">💪 Fitness</option>
+            <option value="study">📚 Study</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Priority</label>
+          <select id="goal-priority" class="w-full glass bg-[#0F172A] border border-white/10 focus:border-[#22C55E]/50 text-white rounded-xl px-3 py-2.5 text-sm outline-none">
+            <option value="high">🔴 High</option>
+            <option value="medium" selected>🟡 Medium</option>
+            <option value="low">🟢 Low</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Notes (optional)</label>
+        <textarea id="goal-notes" rows="2" placeholder="Extra details..."
+                  class="w-full glass bg-white/[.04] border border-white/10 focus:border-[#22C55E]/50 text-white placeholder-slate-600 rounded-xl px-4 py-2.5 text-sm outline-none resize-none transition-colors"></textarea>
+      </div>
+
+      <!-- Reminder time -->
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Daily Reminder Time</label>
+        <div class="flex items-center gap-3">
+          <input id="goal-time" type="time"
+                 class="glass bg-[#0F172A] border border-white/10 focus:border-[#22C55E]/50 text-white rounded-xl px-4 py-2.5 text-sm outline-none flex-1 transition-colors" />
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input id="goal-notif" type="checkbox" class="w-4 h-4 accent-[#22C55E] cursor-pointer" />
+            <span class="text-xs text-slate-400">Notify</span>
+          </label>
+        </div>
+        <p class="text-[11px] text-slate-600 mt-1">Notification fires daily at this time — stays until dismissed.</p>
+      </div>
+
+      <!-- Recurrence -->
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Repeat</label>
+        <select id="goal-recur" class="w-full glass bg-[#0F172A] border border-white/10 focus:border-[#22C55E]/50 text-white rounded-xl px-3 py-2.5 text-sm outline-none">
+          <option value="none">No repeat</option>
+          <option value="daily">Every day</option>
+          <option value="weekly">Every week</option>
+          <option value="monthly">Every month</option>
+        </select>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-accent w-full text-white font-semibold py-3 rounded-xl text-sm mt-1">
+        Save Goal
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════════ -->
+<script>
+// ─── Service Worker Registration ─────────────────────────────────────────────
+let swReg = null;
+
+async function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    swReg = await navigator.serviceWorker.register('/sw.js');
+    console.log('[SW] registered');
+
+    // Listen for messages from SW
+    navigator.serviceWorker.addEventListener('message', e => {
+      if (e.data?.type === 'REQUEST_GOALS') sendGoalsToSW();
+      if (e.data?.type === 'NOTIFICATION_ACTION') handleSWAction(e.data);
+    });
+  } catch (err) {
+    console.warn('[SW] registration failed', err);
+  }
+}
+
+function sendGoalsToSW() {
+  if (!swReg?.active) return;
+  swReg.active.postMessage({ type: 'SCHEDULE_NOTIFICATIONS', goals: getGoals() });
+}
+
+function handleSWAction({ action, goal }) {
+  if (action === 'complete' && goal?.id) markDone(goal.id);
+  if (action === 'snooze'   && goal?.id) snoozeGoal(goal.id);
+}
+
+// ─── Notification Permission ──────────────────────────────────────────────────
+let notifGranted = false;
+
+async function requestNotifPermission() {
+  if (!('Notification' in window)) return false;
+  const perm = await Notification.requestPermission();
+  notifGranted = perm === 'granted';
+  updateNotifStatus();
+  if (notifGranted) {
+    hideBanner();
+    sendGoalsToSW();
+    registerPeriodicSync();
+    startNotifLoop();
+  }
+  return notifGranted;
+}
+
+function updateNotifStatus() {
+  const dot   = document.getElementById('notif-dot');
+  const label = document.getElementById('notif-label');
+  if (Notification.permission === 'granted') {
+    dot.className   = 'w-2 h-2 rounded-full bg-[#22C55E] animate-pulse';
+    label.className = 'text-[#22C55E]';
+    label.textContent = 'Notifications on';
+    notifGranted = true;
+  } else if (Notification.permission === 'denied') {
+    dot.className   = 'w-2 h-2 rounded-full bg-red-500';
+    label.className = 'text-red-400';
+    label.textContent = 'Blocked';
+  } else {
+    dot.className   = 'w-2 h-2 rounded-full bg-slate-500';
+    label.className = 'text-slate-500';
+    label.textContent = 'Notifications off';
+  }
+}
+
+async function registerPeriodicSync() {
+  if (!swReg || !('periodicSync' in swReg)) return;
+  try {
+    const status = await navigator.permissions.query({ name: 'periodic-background-sync' });
+    if (status.state === 'granted') {
+      await swReg.periodicSync.register('goal-check', { minInterval: 60 * 60 * 1000 }); // hourly
+    }
+  } catch (_) {}
+}
+
+// Polling loop while page is open (fires every minute)
+let notifLoop = null;
+function startNotifLoop() {
+  if (notifLoop) return;
+  notifLoop = setInterval(checkDueNotifications, 60_000);
+  checkDueNotifications(); // immediate first check
+}
+
+function checkDueNotifications() {
+  if (Notification.permission !== 'granted') return;
+  const now   = new Date();
+  const hh    = now.getHours();
+  const mm    = now.getMinutes();
+  const today = now.toISOString().slice(0, 10);
+
+  getGoals().forEach(goal => {
+    if (goal.completed) return;
+    if (!goal.notify || !goal.reminderTime) return;
+    const [gh, gm] = goal.reminderTime.split(':').map(Number);
+    if (gh !== hh || gm !== mm) return;
+    const firedKey = `fired_${goal.id}_${today}_${hh}:${gm}`;
+    if (sessionStorage.getItem(firedKey)) return;
+    sessionStorage.setItem(firedKey, '1');
+    fireNotification(goal);
+  });
+}
+
+function fireNotification(goal) {
+  if (Notification.permission !== 'granted') return;
+  if (swReg?.active) {
+    swReg.active.postMessage({ type: 'TEST_NOTIFICATION', goal });
+  } else {
+    // Fallback: direct browser notification
+    const n = new Notification(`${catEmoji(goal.category)} ${goal.title}`, {
+      body: `${goal.notes || ''}\nCategory: ${goal.category?.toUpperCase()} · Priority: ${goal.priority?.toUpperCase()}`,
+      requireInteraction: true,
+      tag: `goal-${goal.id}`,
+      renotify: true,
+    });
+    n.onclick = () => { window.focus(); n.close(); };
+  }
+}
+
+// ─── Data Layer (localStorage) ────────────────────────────────────────────────
+const STORAGE_KEY = 'polozaix_goals_v2';
+
+function getGoals() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function saveGoals(goals) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(goals));
+  sendGoalsToSW();
+}
+
+function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+
+// ─── Goal CRUD ────────────────────────────────────────────────────────────────
+function addGoal(data) {
+  const goals = getGoals();
+  goals.push({ id: genId(), createdAt: new Date().toISOString(), completed: false, ...data });
+  saveGoals(goals);
+  renderGoals();
+}
+
+function updateGoal(id, data) {
+  const goals = getGoals().map(g => g.id === id ? { ...g, ...data } : g);
+  saveGoals(goals);
+  renderGoals();
+}
+
+function deleteGoal(id) {
+  saveGoals(getGoals().filter(g => g.id !== id));
+  renderGoals();
+}
+
+function markDone(id) {
+  const goal = getGoals().find(g => g.id === id);
+  if (!goal) return;
+  // If recurring, reset instead of completing permanently
+  if (goal.recurrence && goal.recurrence !== 'none') {
+    updateGoal(id, { completed: false, lastReset: new Date().toISOString() });
+  } else {
+    updateGoal(id, { completed: !goal.completed });
+  }
+}
+
+function snoozeGoal(id) {
+  const goal = getGoals().find(g => g.id === id);
+  if (!goal) return;
+  const snoozeUntil = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+  updateGoal(id, { snoozeUntil });
+}
+
+// ─── Render ───────────────────────────────────────────────────────────────────
+let activeFilter = 'all';
+
+const CAT_META = {
+  daily:    { label: 'Daily',     emoji: '📅', cls: 'cat-daily'    },
+  weekly:   { label: 'Weekly',    emoji: '📆', cls: 'cat-weekly'   },
+  monthly:  { label: 'Monthly',   emoji: '🗓️', cls: 'cat-monthly'  },
+  longterm: { label: 'Long-term', emoji: '🚀', cls: 'cat-longterm' },
+  fitness:  { label: 'Fitness',   emoji: '💪', cls: 'cat-fitness'  },
+  study:    { label: 'Study',     emoji: '📚', cls: 'cat-study'    },
+};
+
+function catEmoji(cat) { return CAT_META[cat]?.emoji || '🎯'; }
+
+function renderProgressOverview() {
+  const goals = getGoals();
+  const overview = document.getElementById('progress-overview');
+  const cats = Object.entries(CAT_META);
+
+  overview.innerHTML = cats.map(([key, meta]) => {
+    const catGoals = goals.filter(g => g.category === key);
+    const done     = catGoals.filter(g => g.completed).length;
+    const total    = catGoals.length;
+    const pct      = total ? Math.round((done / total) * 100) : 0;
+
+    return `
+      <button data-cat="${key}" class="cat-tab-prog glass rounded-xl p-3 text-center card-hover border border-white/[.06] hover:border-[#22C55E]/20 transition-colors" onclick="setFilter('${key}')">
+        <div class="text-xl mb-1">${meta.emoji}</div>
+        <div class="font-heading font-bold text-sm text-white">${done}/${total}</div>
+        <div class="text-[10px] text-slate-500 mt-0.5">${meta.label}</div>
+        <div class="mt-2 h-1 rounded-full bg-white/[.05] overflow-hidden">
+          <div class="h-full rounded-full bg-gradient-to-r from-[#22C55E] to-[#2563EB] transition-all duration-500" style="width:${pct}%"></div>
+        </div>
+      </button>`;
+  }).join('');
+}
+
+function renderGoals() {
+  const all  = getGoals();
+  const list = document.getElementById('goals-list');
+  const empty= document.getElementById('goals-empty');
+
+  renderProgressOverview();
+
+  const filtered = activeFilter === 'all' ? all : all.filter(g => g.category === activeFilter);
+
+  // Sort: incomplete first, then by priority
+  const priOrder = { high: 0, medium: 1, low: 2 };
+  filtered.sort((a, b) => {
+    if (a.completed !== b.completed) return a.completed ? 1 : -1;
+    return (priOrder[a.priority] ?? 1) - (priOrder[b.priority] ?? 1);
+  });
+
+  if (!filtered.length) {
+    list.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  list.innerHTML = filtered.map(goal => {
+    const meta = CAT_META[goal.category] || { label: goal.category, emoji: '🎯', cls: 'cat-daily' };
+    const priColor = { high: 'text-red-400', medium: 'text-yellow-400', low: 'text-green-400' };
+    const priBorder = { high: 'border-red-500/20', medium: 'border-yellow-500/20', low: 'border-green-500/20' };
+
+    return `
+      <div class="glass rounded-xl p-4 border border-white/[.05] hover:border-white/10 transition-all ${goal.completed ? 'task-done' : ''}">
+        <div class="flex items-start gap-3">
+          <!-- Checkbox -->
+          <button onclick="markDone('${goal.id}')"
+                  class="mt-0.5 w-5 h-5 rounded-md border-2 ${goal.completed ? 'bg-[#22C55E] border-[#22C55E]' : 'border-slate-600 hover:border-[#22C55E]'} flex items-center justify-center shrink-0 transition-all"
+                  title="${goal.completed ? 'Mark incomplete' : 'Mark complete'}">
+            ${goal.completed ? '<svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>' : ''}
+          </button>
+
+          <!-- Content -->
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="task-title font-heading font-semibold text-sm text-white">${escHtml(goal.title)}</span>
+              <span class="cat-badge ${meta.cls}">${meta.emoji} ${meta.label}</span>
+              <span class="text-xs font-semibold ${priColor[goal.priority] || 'text-slate-400'}">${goal.priority?.toUpperCase() || ''}</span>
+            </div>
+            ${goal.notes ? `<p class="text-xs text-slate-500 mt-0.5 leading-relaxed">${escHtml(goal.notes)}</p>` : ''}
+            <div class="flex flex-wrap items-center gap-3 mt-2">
+              ${goal.reminderTime ? `<span class="text-[11px] text-slate-600 flex items-center gap-1">⏰ ${goal.reminderTime}${goal.notify ? ' · <span class="text-[#22C55E]">notif on</span>' : ''}</span>` : ''}
+              ${goal.recurrence && goal.recurrence !== 'none' ? `<span class="text-[11px] text-slate-600">🔄 ${goal.recurrence}</span>` : ''}
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex items-center gap-1 shrink-0">
+            ${goal.notify && goal.reminderTime ? `
+              <button onclick="testNotif('${goal.id}')" title="Test notification now"
+                      class="w-7 h-7 rounded-lg hover:bg-[#22C55E]/10 text-slate-500 hover:text-[#22C55E] flex items-center justify-center transition-colors text-sm">🔔</button>
+            ` : ''}
+            <button onclick="openEdit('${goal.id}')" title="Edit"
+                    class="w-7 h-7 rounded-lg hover:bg-white/[.06] text-slate-500 hover:text-white flex items-center justify-center transition-colors">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </button>
+            <button onclick="deleteGoal('${goal.id}')" title="Delete"
+                    class="w-7 h-7 rounded-lg hover:bg-red-500/10 text-slate-500 hover:text-red-400 flex items-center justify-center transition-colors">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function setFilter(cat) {
+  activeFilter = cat;
+  document.querySelectorAll('.cat-tab').forEach(btn => {
+    const active = btn.dataset.cat === cat;
+    btn.classList.toggle('glass-strong', active);
+    btn.classList.toggle('glass', !active);
+    btn.classList.toggle('text-white', active);
+    btn.classList.toggle('text-slate-400', !active);
+    btn.classList.toggle('border-white/10', active);
+    btn.classList.toggle('border-white/[.06]', !active);
+  });
+  renderGoals();
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── Test notification ────────────────────────────────────────────────────────
+async function testNotif(id) {
+  const goal = getGoals().find(g => g.id === id);
+  if (!goal) return;
+
+  if (Notification.permission !== 'granted') {
+    const ok = await requestNotifPermission();
+    if (!ok) return;
+  }
+
+  if (swReg?.active) {
+    swReg.active.postMessage({ type: 'TEST_NOTIFICATION', goal });
+  } else {
+    new Notification(`${catEmoji(goal.category)} ${goal.title}`, {
+      body: goal.notes || `Priority: ${goal.priority?.toUpperCase()}`,
+      requireInteraction: true,
+      tag: `goal-${goal.id}`,
+      renotify: true,
+    });
+  }
+}
+
+// ─── Modal logic ──────────────────────────────────────────────────────────────
+function openModal(goal = null) {
+  const modal = document.getElementById('task-modal');
+  document.getElementById('modal-title').textContent = goal ? 'Edit Goal' : 'Add Goal';
+  document.getElementById('goal-id').value      = goal?.id || '';
+  document.getElementById('goal-title').value   = goal?.title || '';
+  document.getElementById('goal-cat').value     = goal?.category || 'daily';
+  document.getElementById('goal-priority').value= goal?.priority || 'medium';
+  document.getElementById('goal-notes').value   = goal?.notes || '';
+  document.getElementById('goal-time').value    = goal?.reminderTime || '';
+  document.getElementById('goal-notif').checked = goal?.notify || false;
+  document.getElementById('goal-recur').value   = goal?.recurrence || 'none';
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('goal-title').focus(), 50);
+}
+
+function closeModal() {
+  document.getElementById('task-modal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function openEdit(id) {
+  const goal = getGoals().find(g => g.id === id);
+  if (goal) openModal(goal);
+}
+
+// ─── Form submit ──────────────────────────────────────────────────────────────
+document.getElementById('goal-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const id        = document.getElementById('goal-id').value;
+  const notify    = document.getElementById('goal-notif').checked;
+  const hasTime   = document.getElementById('goal-time').value;
+
+  // Auto-request permission if they want notifications
+  if (notify && hasTime && Notification.permission !== 'granted') {
+    await requestNotifPermission();
+  }
+
+  const data = {
+    title:        document.getElementById('goal-title').value.trim(),
+    category:     document.getElementById('goal-cat').value,
+    priority:     document.getElementById('goal-priority').value,
+    notes:        document.getElementById('goal-notes').value.trim(),
+    reminderTime: hasTime,
+    notify:       notify && !!hasTime,
+    recurrence:   document.getElementById('goal-recur').value,
+  };
+
+  if (id) { updateGoal(id, data); }
+  else    { addGoal(data); }
+
+  closeModal();
+});
+
+// ─── Banner ───────────────────────────────────────────────────────────────────
+function showBanner() {
+  const b = document.getElementById('notif-banner');
+  b.classList.remove('hidden');
+}
+function hideBanner() {
+  document.getElementById('notif-banner').classList.add('hidden');
+}
+
+// ─── Event listeners ──────────────────────────────────────────────────────────
+document.getElementById('add-goal-btn').addEventListener('click',  () => openModal());
+document.getElementById('close-modal').addEventListener('click',   closeModal);
+document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+document.getElementById('allow-notif').addEventListener('click',   requestNotifPermission);
+document.getElementById('dismiss-notif').addEventListener('click', hideBanner);
+document.getElementById('close-banner').addEventListener('click',  hideBanner);
+
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+
+// Close mobile menu on link click
+document.querySelectorAll('#mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'));
+});
+
+// Category filter tabs
+document.querySelectorAll('.cat-tab').forEach(btn => {
+  btn.addEventListener('click', () => setFilter(btn.dataset.cat));
+});
+
+// Escape key closes modal
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ─── PWA install prompt ───────────────────────────────────────────────────────
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('install-hint').classList.remove('hidden');
+});
+
+// ─── Skill bar intersection observer ─────────────────────────────────────────
+const skillObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+        bar.style.width = bar.style.getPropertyValue('--w') || getComputedStyle(bar).getPropertyValue('--w');
+      });
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('#skills').forEach(s => skillObs.observe(s));
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+(async function init() {
+  await registerSW();
+  updateNotifStatus();
+
+  // Seed example goals if none exist
+  if (!getGoals().length) {
+    const defaults = [
+      { title: 'Review lecture notes',          category: 'daily',    priority: 'high',   notes: 'Stay on top of coursework', reminderTime: '08:00', notify: false, recurrence: 'daily'   },
+      { title: 'Complete weekly assignment',     category: 'weekly',   priority: 'high',   notes: '',  reminderTime: '09:00', notify: false, recurrence: 'weekly'  },
+      { title: 'Build a full-stack project',     category: 'monthly',  priority: 'medium', notes: 'Add to portfolio', reminderTime: '', notify: false, recurrence: 'none'    },
+      { title: 'Land a developer internship',    category: 'longterm', priority: 'high',   notes: 'Apply to 3 places/week',  reminderTime: '', notify: false, recurrence: 'none'    },
+      { title: 'Gym session (push day)',          category: 'fitness',  priority: 'medium', notes: '', reminderTime: '17:00', notify: false, recurrence: 'daily'   },
+      { title: 'LeetCode — 1 problem/day',       category: 'study',    priority: 'medium', notes: 'Focus on arrays & strings', reminderTime: '20:00', notify: false, recurrence: 'daily'  },
+    ];
+    defaults.forEach(d => addGoal({ ...d, completed: false }));
+  } else {
+    renderGoals();
+  }
+
+  // Show notification banner after 3s if not granted
+  if (Notification.permission === 'default') {
+    setTimeout(showBanner, 3000);
+  }
+
+  // If already granted, start loop
+  if (Notification.permission === 'granted') {
+    notifGranted = true;
+    startNotifLoop();
+    sendGoalsToSW();
+  }
+
+  // Keep SW alive with heartbeat while page is open
+  setInterval(() => {
+    if (swReg?.active) swReg.active.postMessage({ type: 'PING' });
+  }, 30_000);
+})();
+</script>
+
+</body>
+</html>
