@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PocketHUD | Browser prototype (simulated)</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#e6f6f1;background:#0b1015}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 70% 15%,#163a3a 0%,#0b1015 48%)}
+header{padding:22px min(5vw,50px);display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:space-between;border-bottom:1px solid #29403e}
+.brand{font-weight:800;letter-spacing:.04em;font-size:1.1rem}.tag{font-size:.73rem;border:1px solid #42665e;color:#9cddcb;padding:6px 10px;border-radius:50px}
+main{max-width:1020px;margin:40px auto;padding:0 24px;display:grid;grid-template-columns:minmax(280px,1.1fr) minmax(280px,.9fr);gap:36px}
+h1{font-size:clamp(1.8rem,3vw,2.8rem);letter-spacing:-.03em;margin:0 0 14px}p{line-height:1.6;color:#afc5c2}
+small{color:#98b6b0}.device-shell{margin:30px auto 14px;width:min(100%,390px);aspect-ratio:4 / 3;padding:16px;background:linear-gradient(140deg,#455257,#1c292e);border:1px solid #637775;border-radius:19px;box-shadow:0 30px 70px #0008}
+.device{height:100%;background:#06181b;border:2px solid #35584f;border-radius:8px;padding:17px 20px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:all .25s}
+.device.round{border-radius:50%;aspect-ratio:1;margin:auto;max-width:285px;padding:46px 39px;align-items:center;text-align:center}
+.device-shell.is-round{aspect-ratio:1;max-width:333px;border-radius:50%;padding:16px}
+.device.round #detail{font-size:.76rem}
+.device.higher{background:#000;border-color:#b7edac}
+.topline{display:flex;gap:8px;justify-content:space-between;color:#74d5b4;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;width:100%}
+h2{font-size:1.4rem;line-height:1.2;margin:7px 0;color:#effff7}
+#detail{font-size:1rem;color:#a8e7ce;margin:0;line-height:1.35}
+.bottomline{display:flex;justify-content:space-between;gap:8px;color:#73a99a;font-size:.75rem;width:100%}
+.controls{background:#111d22;border:1px solid #2c4647;border-radius:18px;padding:24px;align-self:start}
+label{display:block;font-weight:600;font-size:.83rem;margin:18px 0 8px}
+input{width:100%;border:1px solid #48635c;border-radius:9px;background:#09171b;padding:12px;color:#f1fff6}
+button{border:1px solid #376455;border-radius:10px;padding:11px 13px;background:#173a32;color:#d9f9e9;font-weight:700;cursor:pointer}
+button:hover{background:#255847}button:focus-visible,input:focus-visible{outline:2px solid #83dcbc;outline-offset:3px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.secondary{background:#15252a}
+.note{font-size:.83rem;color:#9cb8b0;border-left:3px solid #4cb591;padding-left:12px;margin:22px 0}
+footer{padding:25px;text-align:center;color:#9ab3ab;font-size:.85rem}
+a{color:#8de6c5}
+@media(max-width:750px){main{grid-template-columns:1fr;gap:5px}.controls{width:100%}}
+</style>
+</head>
+<body>
+<header><span class="brand">◉ POCKETHUD</span><span class="tag">SIMULATED UI • NO HARDWARE CONNECTED</span></header>
+<main>
+<section>
+<h1>Useful information. Less distraction.</h1>
+<p>Browser proof of concept for a small ESP32 contextual display. The screens below are <strong>synthetic</strong>, not a live phone or microcontroller feed.</p>
+<div class="device-shell" id="shell" aria-label="Simulated embedded display">
+<div class="device" id="screen" aria-live="polite">
+<div class="topline"><span>POCKETHUD / DEMO</span><span id="time">00:00</span></div>
+<div><small id="category">TASK</small><h2 id="title">Review coursework</h2><p id="detail">10 minute focus session</p></div>
+<div class="bottomline"><span>◀ NEXT ▶</span><span id="position">1 / 3</span></div>
+</div></div>
+<p style="text-align:center;font-size:.86rem">Use <strong>Left / Right</strong> arrow keys or the buttons to change the demo card.</p>
+</section>
+<section class="controls">
+<h2 style="margin:0">Experiment controls</h2>
+<p style="font-size:.9rem;margin:8px 0 18px">Explore how short messages and different display constraints change the layout.</p>
+<div class="actions"><button id="prev" aria-label="Previous card">← Previous</button><button id="next">Next card →</button><button id="contrast" class="secondary" aria-pressed="false">High contrast: OFF</button></div>
+<div class="actions"><button id="shape" class="secondary" aria-pressed="false">Round layout: OFF</button></div>
+<label for="message">Enter a local demo message</label>
+<input id="message" maxlength="100" placeholder="e.g. Bring laptop charger" autocomplete="off">
+<div class="actions"><button id="add">Queue demo message</button><button id="reset" class="secondary">Reset data</button></div>
+<p id="feedback" role="status" style="font-size:.86rem">Three demonstration cards are loaded.</p>
+<p class="note">No external APIs, Wi-Fi, cloud services, notifications or camera access are used. Display size is an illustrative mock-up, not a calibrated optical measurement.</p>
+<a href="README.md">Read the project README</a>
+</section>
+</main>
+<footer>Independent educational research prototype • Tarik Hamza Bilgin • De Montfort University (student affiliation only)</footer>
+<script>
+"use strict";
+const starter=[
+{type:"TASK",title:"Review coursework",detail:"10 minute focus session"},
+{type:"STATUS",title:"Build ready",detail:"Local test event • not a real device alert"},
+{type:"TIMER",title:"Break reminder",detail:"Stand up and stretch after your focus block"}
+];
+let cards=starter.map(c=>({...c}));let index=0;let high=false;let round=false;
+const el=id=>document.getElementById(id);
+const short=(s,max)=>s.length>max?s.slice(0,max-1)+"…":s;
+function render(){
+const card=cards[index];
+el("category").textContent=card.type;
+el("title").textContent=short(card.title,round?24:42);
+el("detail").textContent=short(card.detail,round?48:90);
+el("position").textContent=(index+1)+" / "+cards.length;
+el("time").textContent=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+el("screen").classList.toggle("higher",high);
+el("screen").classList.toggle("round",round);
+el("shell").classList.toggle("is-round",round);
+el("contrast").textContent="High contrast: "+(high?"ON":"OFF");
+el("contrast").setAttribute("aria-pressed",String(high));
+el("shape").textContent="Round layout: "+(round?"ON":"OFF");
+el("shape").setAttribute("aria-pressed",String(round));
+}
+function move(delta){index=(index+delta+cards.length)%cards.length;render();}
+el("prev").addEventListener("click",()=>move(-1));
+el("next").addEventListener("click",()=>move(1));
+el("contrast").addEventListener("click",()=>{high=!high;render();});
+el("shape").addEventListener("click",()=>{round=!round;render();});
+el("add").addEventListener("click",()=>{
+ const value=el("message").value.trim();
+ if(!value){el("feedback").textContent="Enter a message first.";return;}
+ cards.push({type:"DEMO EVENT",title:"New reminder",detail:value});
+ index=cards.length-1;el("message").value="";el("feedback").textContent="A simulated event was queued locally.";render();
+});
+el("reset").addEventListener("click",()=>{
+ cards=starter.map(c=>({...c}));index=0;high=false;round=false;
+ el("feedback").textContent="Demo reset to three synthetic cards.";render();
+});
+document.addEventListener("keydown",event=>{
+ if(event.target instanceof HTMLInputElement)return;
+ if(event.key==="ArrowRight"){event.preventDefault();move(1);}
+ if(event.key==="ArrowLeft"){event.preventDefault();move(-1);}
+});
+render();
+</script>
+</body>
+</html>
